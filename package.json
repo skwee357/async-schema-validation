@@ -1,0 +1,37 @@
+{
+  "name": "async-schema-validation",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Async schema validation for node.js is a validation framework based on promises and chriso/validator.js",
+  "author": "Dmitry Kudryavtsev <skwee357+npm@gmail.com>",
+  "keywords": [
+    "async",
+    "validation",
+    "schema"
+  ],
+  "main": "lib/index.js",
+  "bugs": {
+    "url": "https://github.com/skwee357/async-schema-validation/issues"
+  },
+  "homepage": "https://github.com/skwee357/async-schema-validation",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/skwee357/async-schema-validation.git"
+  },
+  "license": "MIT",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "bluebird": "^2.9.25",
+    "lodash": "^3.9.1",
+    "validator": "^3.40.0"
+  },
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "mocha": "^2.2.5"
+  }
+}
