@@ -2,11 +2,11 @@
 Async schema validation for node.js is a validation framework based on promises and [chriso/validator.js](https://github.com/chriso/validator.js)
 
 # Available on NPM
-```npm install async-schema-validator```
+```npm install async-schema-validation```
 
 # Examples
 ```
-var validator = require('async-schema-validator'),
+var validator = require('async-schema-validation'),
     values = {
         foo: 1, 
         lol: 'abcd',
