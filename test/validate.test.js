@@ -63,10 +63,9 @@ describe('Async schema validation', function () {
             },
             schema = {
                 foo: [
-                    {rule: function(value) {
-                        if(value % 2 != 0) {
-                            throw new Error(msg)
-                        }
+                    {rule: function(value, cb) {
+                        if(value % 2 != 0) return cb(msg);
+                        cb();
                     }}
                 ],
                 lol: [{rule: 'required', msg: 'Lol should be present'}]
