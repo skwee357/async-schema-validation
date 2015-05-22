@@ -1,6 +1,7 @@
 var mocha = require('mocha'),
     expect = require('chai').expect,
-    validation = require('../lib');
+    validation = require('../lib'),
+    Promise = require('bluebird');
 
 describe('Async schema validation', function () {
 
@@ -10,8 +11,8 @@ describe('Async schema validation', function () {
                 lol: 1
             },
             schema = {
-                foo: [{rule: 'isAlpha'}],
-                lol: [{rule: 'isInt'}]
+                foo: [{validator: 'isAlpha'}],
+                lol: [{validator: 'isInt'}]
             };
 
         validation
@@ -30,10 +31,10 @@ describe('Async schema validation', function () {
                 lol: 'aa'
             },
             schema = {
-                foo: [{rule: 'isInt', msg: 'Invalid number for foo'}],
+                foo: [{validator: 'isInt', msg: 'Invalid number for foo'}],
                 lol: [
-                    {rule: 'isAlpha'},
-                    {rule: 'isLength', msg: 'lol should be between 3 and 7 characters', args: [3, 7]}
+                    {validator: 'isAlpha'},
+                    {validator: 'isLength', msg: 'lol should be between 3 and 7 characters', args: [3, 7]}
                 ]
             };
         validation
@@ -63,12 +64,16 @@ describe('Async schema validation', function () {
             },
             schema = {
                 foo: [
-                    {rule: function(value, cb) {
-                        if(value % 2 != 0) return cb(msg);
-                        cb();
-                    }}
+                    {
+                        validator: function (value, cb) {
+                            new Promise(function () {
+                                if (value % 2 != 0) return cb(new Error(msg));
+                                cb();
+                            })
+                        }
+                    }
                 ],
-                lol: [{rule: 'required', msg: 'Lol should be present'}]
+                lol: [{validator: 'required', msg: 'Lol should be present'}]
             };
 
         validation
@@ -77,6 +82,8 @@ describe('Async schema validation', function () {
                 throw new Error('should not validate');
             })
             .catch(validation.ValidationError, function (e) {
+                console.log(e);
+
                 expect(e).to.have.property('errors').with.length(2);
 
                 expect(e.errors[0]).to.have.property('field', 'foo');
